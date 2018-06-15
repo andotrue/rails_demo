@@ -1,0 +1,35 @@
+<%#
+このコードをよく観察してみると、form_forの宣言部分以外には元のコードとの違いがないことがわかります。
+他のフォーム内のコードを置き換えるパーシャル内でのform_for宣言がこのように短くて簡潔で済むのは、
+@articleがRESTfulルーティングの完全なセットに対応する リソース であり、
+必要なURIとメソッドをRailsがそれに基いて推測できるからです。 
+form_forの使用法の詳細については、Rails APIのリソース指向のスタイル (英語) を参照してください。
+http://edgeapi.rubyonrails.org/classes/ActionView/Helpers/FormHelper.html#method-i-form_for-label-Resource-oriented+style
+%>
+
+<%= form_for @article do |f| %>
+  <% if @article.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(@article.errors.count, "error") %> prohibited
+      this article from being saved:</h2>
+    <ul>
+    <% @article.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+  <% end %>
+  <p>
+    <%= f.label :title %><br>
+    <%= f.text_field :title %>
+  </p>
+ 
+  <p>
+    <%= f.label :text %><br>
+    <%= f.text_area :text %>
+  </p>
+ 
+  <p>
+    <%= f.submit %>
+  </p>
+<% end %>

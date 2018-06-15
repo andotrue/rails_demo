@@ -1,0 +1,7 @@
+<h1>New Article</h1>
+
+<%# app/views/articles/_form.html.erbという名前のパーシャルファイル %>
+<%= render 'form' %>
+
+<%# 現在と同じコントローラのアクションにリンクする場合は、controllerの指定は不要です。デフォルトでは現在のコントローラが使用されるからです。 %>
+<%= link_to 'Back', articles_path %>
