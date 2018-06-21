@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   #ルーティングの詳細については、本ガイドのRailsのルーティングを参照してください。
   #https://railsguides.jp/routing.html
   #resources :articles
-  #コメント追加により↑を修正
+  #コメント機能追加により↑を修正
   resources :articles do
   	resources :comments
   end
