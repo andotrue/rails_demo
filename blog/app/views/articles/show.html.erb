@@ -1,12 +1,13 @@
 <p>
-  <strong>Title:</strong>
-  <%= @article.title %>
+	<strong>Title:</strong>
+	<%= @article.title %>
 </p>
  
 <p>
-  <strong>Text:</strong>
-  <%= @article.text %>
+	<strong>Text:</strong>
+	<%= @article.text %>
 </p>
+
 
 <%# 
 app/views/comments/_comment.html.erbパーシャルが、@article.commentsコレクションに含まれているコメントをすべて出力
@@ -16,16 +17,16 @@ renderメソッドが@article.commentsコレクションに含まれる要素を
 <h2>Comments</h2>
 <%= render @article.comments %>
 
+
+<h2>Add a comment:</h2>
 <%#
 描画したいパーシャルテンプレートであるcomments/formを単純に定義しているだけです。
-comments/formと書くだけで、Railsは区切りのスラッシュ文字に気付き、app/views/commentsディレクトリの_form.html.erbパーシャル
-を描画すればよいということを理解し、実行してくれます。app/views/comments/_form.html.erbなどと書く必要はありません。
-
+comments/formと書くだけで、Railsは区切りのスラッシュ文字に気付き、app/views/commentsディレクトリの_form.html.erbパーシャルを描画すればよいということを理解し、実行してくれます。
+app/views/comments/_form.html.erbなどと書く必要はありません。
 @articleオブジェクトはインスタンス変数なので、ビューで出力されるどのパーシャルからもアクセスできます。
 %>
-<h2>Add a comment:</h2>
 <%= render "comments/form" %>
 
 <% #現在と同じコントローラのアクションにリンクする場合は、controllerの指定は不要です。デフォルトでは現在のコントローラが使用されるからです。 %>
-<%= link_to 'Back', articles_path %>
-| <%= link_to 'Edit', edit_article_path(@article) %>
+<%= link_to 'Edit Article', edit_article_path(@article) %> |
+<%= link_to 'Back to Articles', articles_path %>

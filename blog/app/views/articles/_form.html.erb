@@ -1,17 +1,36 @@
 <%#
-このコードをよく観察してみると、form_forの宣言部分以外には元のコードとの違いがないことがわかります。
-他のフォーム内のコードを置き換えるパーシャル内でのform_for宣言がこのように短くて簡潔で済むのは、
-@articleがRESTfulルーティングの完全なセットに対応する リソース であり、
-必要なURIとメソッドをRailsがそれに基いて推測できるからです。 
-form_forの使用法の詳細については、Rails APIのリソース指向のスタイル (英語) を参照してください。
-http://edgeapi.rubyonrails.org/classes/ActionView/Helpers/FormHelper.html#method-i-form_for-label-Resource-oriented+style
+フォームを作成するために、form builder を使用します。Railsにはform_forというヘルパーメソッドがあり、主にこれを使用してフォームを作成します
+form_forメソッドを呼び出すときには、このフォームを識別するためのオブジェクトを渡してください。
+ここでは:articleというシンボルを渡します。form_forヘルパーは、これを見て何のフォームであるかを知ることができます。
+このメソッドのブロックの内側はFormBuilderオブジェクトを置きます(fで表すのが通例です)。
+ここでは2つのラベルと2つのテキストフィールドが置かれ、それぞれタイトルと記事本文になります。最後に、fオブジェクトに対してsubmitを実行すると、フォームの送信ボタンが作成されます。
 %>
 
+<%#
+送信先の指定はform_forの:urlオプションで簡単に指定できます。
+urlオプションにarticles_pathヘルパーが渡されています。 
+このときRailsの内部で何が行われているのかを知るために、bin/rails routesの出力結果をもう一度見てみましょう。
+articles_pathヘルパーは、articlesという接頭語に関連付けられているURIパターンをフォームの送信先とするようRailsに指示します。
+そしてこのフォームはデフォルトに従ってPOSTリクエストとしてルーティングに送信されます。
+そしてこのルーティングは、現在のコントローラであるArticlesControllerのcreateアクションに関連付けられます。
+%>
+
+<%#
+このコードをよく観察してみると、form_forの宣言部分以外には元のコードとの違いがないことがわかります。
+他のフォーム内のコードを置き換えるパーシャル内でのform_for宣言がこのように短くて簡潔で済むのは、
+@articleがRESTfulルーティングの完全なセットに対応する リソース であり、必要なURIとメソッドをRailsがそれに基いて推測できるからです。 
+%>
 <%= form_for @article do |f| %>
+<%#= form_for :article, url: articles_path do |f| %>
+  <%#
+  @article.errors.any?でエラーが発生しているかどうかをチェックしています。
+  そしてエラーの場合は@article.errors.full_messagesでエラーメッセージを全文表示します。
+  pluralizeは、数値を受け取ってそれに応じて英語の「単数形/複数形」活用を行ってくれるRailsのヘルパーメソッドです。
+  数値が1より大きい場合は、引数の文字列を自動的に複数形に変更します(訳注:pluralizeはたいていの不規則活用にも対応しています)。
+  %>
   <% if @article.errors.any? %>
   <div id="error_explanation">
-    <h2><%= pluralize(@article.errors.count, "error") %> prohibited
-      this article from being saved:</h2>
+    <h2><%= pluralize(@article.errors.count, "error") %> prohibited this article from being saved:</h2>
     <ul>
     <% @article.errors.full_messages.each do |msg| %>
       <li><%= msg %></li>
